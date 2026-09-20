@@ -27,15 +27,13 @@ def process_batch(records, sink, retries=2):
     still gets through. Every record must land in the sink exactly once.
     """
     for record in records:
-        attempt = 1
-        while attempt <= (retries + 1):
+        for attempt in range(retries + 1):
             try:
                 sink.send(record)
                 break
             except TransientError:
-                attempt += 1
-        if attempt > retries + 1:
-            raise TransientError("batch failed after %d attempts" % (retries + 1))
+                if attempt == retries:
+                    raise
 
 
 def _check(name, got, want):
