@@ -4,9 +4,8 @@
 class Job:
     """A unit of work. `tags` are per-job routing labels."""
 
-    tags = []
-
     def __init__(self, name, priority=0):
+        self.tags = []
         self.name = name
         self.priority = priority
 

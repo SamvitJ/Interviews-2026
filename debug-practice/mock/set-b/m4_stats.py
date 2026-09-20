@@ -8,12 +8,14 @@ class Stats:
     def __init__(self):
         self.counts = {}
         self.audit_trail = []
+        self._lock = threading.Lock()
 
     def record(self, key):
         """Count one occurrence of `key`."""
-        current = self.counts.get(key, 0)
         self._audit(key)
-        self.counts[key] = current + 1
+        with self._lock:
+            current = self.counts.get(key, 0)
+            self.counts[key] = current + 1
 
     def _audit(self, key):
         self.audit_trail.append(key)

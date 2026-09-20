@@ -1,6 +1,7 @@
 """Countdown shown on the billing reminder banner."""
 
 from datetime import datetime, timedelta
+import math
 
 
 def days_until(deadline, now):
@@ -11,7 +12,7 @@ def days_until(deadline, now):
     25 hours away        -> 2
     1 hour ago           -> 0
     """
-    return (deadline - now).days
+    return math.ceil((deadline - now).total_seconds() / (24 * 60 * 60))
 
 
 def _check(name, got, want):

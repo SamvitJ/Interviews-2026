@@ -8,7 +8,7 @@ def status_matches(code, name):
 
     `code` arrives already parsed out of the HTTP response line.
     """
-    return code is EXPECTED[name]
+    return (code == EXPECTED[name])
 
 
 def _check(name, got, want):
