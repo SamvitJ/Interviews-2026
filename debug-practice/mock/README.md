@@ -22,6 +22,10 @@ Open a fresh Claude Code session in this directory and paste:
 > `mock/answers/INTERVIEWER.md` and follow the protocol there exactly. I'm the
 > candidate — give me one bug at a time, stay in character, and don't reveal
 > anything I haven't found myself.
+>
+> Ask **one** question at a time and wait for my answer. Never send a numbered
+> list of questions. I'm switching between CoderPad and the terminal, so a wall
+> of text costs me real time and I will miss things in it.
 
 Swap in `set-b` or `set-c` for later runs. **A fresh session matters:** a
 session that watched these files get written already knows every answer, and
