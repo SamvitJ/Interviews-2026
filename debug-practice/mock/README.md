@@ -23,6 +23,10 @@ Open a fresh Claude Code session in this directory and paste:
 > candidate — give me one bug at a time, stay in character, and don't reveal
 > anything I haven't found myself.
 >
+> Before you let me move on from a bug, make me explain every test that
+> *passed*, not just the ones that failed. If I can't say why a passing test
+> passes, I don't have the mechanism yet — push me on it.
+>
 > Ask **one** question at a time and wait for my answer. Never send a numbered
 > list of questions. I'm switching between CoderPad and the terminal, so a wall
 > of text costs me real time and I will miss things in it.
