@@ -1,11 +1,14 @@
 # Mock interview sets
 
-Two sealed sets of 4 bugs each, ordered easy → hard, sized for a 45-minute
+Three sealed sets of 4 bugs each, ordered easy → hard, sized for a 45-minute
 run. **Do not browse these files before your mock.** They are the only bugs you
 haven't seen, and they're worth far more as a cold run than as reading.
 
 - `set-a/` — first mock
 - `set-b/` — second mock
+- `set-c/` — third mock. No concept overlap with A, B, or the tier bugs.
+  (The archetypes are listed in `answers/INTERVIEWER.md`, not here — naming
+  them is most of the hint.)
 - `answers/INTERVIEWER.md` — protocol, hint ladders, answer key, scoring rubric.
   For whoever is running the mock. Not for you, until after.
 - `scorecards/` — results from completed runs. Each one spoils its own set,
@@ -20,8 +23,9 @@ Open a fresh Claude Code session in this directory and paste:
 > candidate — give me one bug at a time, stay in character, and don't reveal
 > anything I haven't found myself.
 
-Swap in `set-b` for the second run. A fresh session matters: a session that
-watched these files get written already knows every answer.
+Swap in `set-b` or `set-c` for later runs. **A fresh session matters:** a
+session that watched these files get written already knows every answer, and
+that includes the session that generated set C.
 
 ## Running it with a person
 

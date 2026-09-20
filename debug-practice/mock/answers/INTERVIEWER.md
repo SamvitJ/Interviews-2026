@@ -5,6 +5,8 @@
 You are running a 45-minute debugging interview. Four bugs, increasing
 difficulty, one at a time. This mirrors Factory's format.
 
+Three sets are available: `set-a`, `set-b`, `set-c`. Run one per session.
+
 ---
 
 ## Protocol
@@ -169,6 +171,92 @@ thing to handle well.
      `counts` and the write."
 
 ---
+
+## Set C
+
+### m1 — bucket_index *(easy, target 4 min)*
+- **Bug:** `int()` **truncates toward zero**, it does not floor. `int(-5 / 10)`
+  is `int(-0.5)` which is `0`, but `-5` belongs in bucket `-1`. Positive
+  readings are unaffected because truncation and flooring agree above zero.
+- **Fix:** `skew_ms // width`. Python's `//` floors, which is exactly the
+  tiling the docstring describes.
+- **Note:** the two passing tests are both positive, so they can't distinguish
+  truncation from flooring — the bug is invisible until skew goes negative, and
+  in production most nodes drift one direction. A candidate who notices that
+  every passing case is positive, *before* theorizing, is doing well. Watch for
+  the special-case fix (`if skew_ms < 0: ... - 1`), which is a 0 on fix quality.
+- **Related:** set B m2 is also a rounding bug, but the other direction — there
+  the candidate needs a ceiling and `.days` floors. Here they need a floor and
+  `int()` truncates. Worth pairing in a debrief.
+- **Hints:**
+  1. "Which two pass and which two fail? What do the passing inputs have in
+     common?"
+  2. "Print `skew_ms / width` before the `int()` for the -5 case, and say out
+     loud which bucket -0.5 should land in."
+  3. "`int()` truncates toward zero. Flooring and truncating disagree below
+     zero."
+
+### m2 — rank *(medium, target 6 min)*
+- **Bug:** `reverse=True` reverses the **entire tuple key**, not just the first
+  element. Scores come out correctly descending, but the title tiebreak is
+  reversed too — Z to A instead of A to Z.
+- **Fix:** `key=lambda r: (-r["score"], r["title"])` with no `reverse`.
+- **Note:** negating works only because the score is numeric. Ask what they'd do
+  if the primary key were a string — the answer is two stable sorts, least
+  significant first: sort by title, then sort by score with `reverse=True`.
+  Python's sort is stable, which is what makes that work. A candidate who
+  reaches for that unprompted is strong.
+- **Hints:**
+  1. "Which two tests fail? What do those inputs have that the passing ones
+     don't?"
+  2. "The scores come out in the right order. Look only at the titles within a
+     single score."
+  3. "`reverse=True` applies to the whole key, not just the first element."
+
+### m3 — dedupe *(hard, target 8 min)*
+- **Bug:** the record is added to `seen`, then mutated by `normalize()`. A set
+  stores each entry under the hash it had **at insertion time**. Changing `key`
+  changes the hash, so the stored record now sits in the wrong bucket and can
+  never be found again — including by a later record that should match it.
+- **Fix:** move `record.normalize()` above the `if record in seen` check. Deeper
+  fix: don't put mutable objects in sets — key on an immutable tuple, or make
+  `Record` frozen.
+- **Note:** the `mixed batch` failure prints two identical-looking
+  `('api', 'delta')` entries — a dedupe function returning visible duplicates.
+  Strong candidates seize on that immediately. The exact-duplicate test passes
+  because `"beta"` normalizes to itself, so its hash never changes. Same "two
+  paths, one right" shape as set B m3.
+- **Hints:**
+  1. "Exact duplicates collapse, but the ones needing normalization don't.
+     What's different about the records in the failing cases?"
+  2. "Print `record.key` immediately before and immediately after
+     `seen.add(record)`, and print `len(seen)` at the end."
+  3. "A set records an object's hash when you insert it. `normalize()` changes
+     the key *after* insertion."
+
+### m4 — run_steps *(hardest, target 10 min)*
+- **Bug:** `return done` sits inside the `finally` block. A `return` in a
+  `finally` **discards any exception still propagating**. `StepError` is raised,
+  the `finally` runs, and the return swallows it — the caller receives a partial
+  list that is indistinguishable from a short but successful run.
+- **Fix:** move the `return` outside the `try`/`finally`. The `finally` keeps
+  only `journal.append("flushed")`.
+- **Note:** hardest because the code reads as *careful* — someone deliberately
+  added cleanup. All three passing tests confirm the cleanup works, which is
+  exactly what hides the bug: the defensive machinery functions correctly, it
+  just eats the error. Real-world shape: a migration that fails silently and
+  reports partial success to the runbook.
+- **The tradeoff to name:** even once it raises, the caller can't see which
+  steps completed. Any partial-success contract has to carry the failure *and*
+  the progress — which is an argument about the return type, not the
+  `try` block.
+- **Hints:**
+  1. "Three tests pass and they all confirm the cleanup works. What's the one
+     thing the failing test checks that the others don't?"
+  2. "Add a print inside `_boom` to confirm it raises. It does. So where does
+     the exception go?"
+  3. "A `return` inside `finally` discards an exception that is still
+     propagating."
 
 ## Scoring rubric
 
