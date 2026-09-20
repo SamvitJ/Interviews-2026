@@ -1,0 +1,12 @@
+b01         --  (box  4m)  hints:0  [solved; timing lost]
+b02      2m58s  (box  4m)  hints:0  [pad]
+b03      2m14s  (box  4m)  hints:0
+b04      3m12s  (box  4m)  hints:0  [pad]
+b05      3m04s  (box  6m)  hints:0  [pad]
+b06      3m09s  (box  6m)  hints:0  [pad]
+b07         --  (box  6m)  hints:0  [solved; timing lost]
+b08      1m29s  (box  6m)  hints:0  [pad]
+b09      9m59s  (box  8m)  hints:0  [pad]
+b10      7m40s  (box  8m)  hints:0  [pad]
+b11         --  (box  8m)  hints:3  [solved; timer ran overnight]
+b12      4m48s  (box  8m)  hints:0  [pad]

@@ -1,0 +1,6 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# per-bug timer and hint-ladder state; regenerated on demand
+.drill/
