@@ -19,7 +19,7 @@ def run_steps(steps, journal):
             done.append(name)
     finally:
         journal.append("flushed")
-        return done
+    return done
 
 
 def _check(name, got, want):

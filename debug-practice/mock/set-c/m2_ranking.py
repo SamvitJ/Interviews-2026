@@ -6,7 +6,7 @@ def rank(results):
 
     Each result is a dict with "title" and "score".
     """
-    return sorted(results, key=lambda r: (r["score"], r["title"]), reverse=True)
+    return sorted(results, key=lambda r: (-r["score"], r["title"]))
 
 
 def _titles(results):

@@ -31,10 +31,10 @@ def dedupe(records):
     seen = set()
     out = []
     for record in records:
+        record.normalize()
         if record in seen:
             continue
         seen.add(record)
-        record.normalize()
         out.append(record)
     return out
 

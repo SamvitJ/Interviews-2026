@@ -13,7 +13,7 @@ def bucket_index(skew_ms, width=WIDTH_MS):
     Skew is signed: a positive reading means the node's clock is ahead,
     a negative one means it is behind.
     """
-    return int(skew_ms / width)
+    return skew_ms // width
 
 
 def _check(name, got, want):
