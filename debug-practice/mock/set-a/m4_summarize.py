@@ -3,7 +3,7 @@
 
 def summarize(records, threshold=100):
     """Return (count, total) across records whose amount exceeds `threshold`."""
-    big = (r for r in records if r["amount"] > threshold)
+    big = [r for r in records if r["amount"] > threshold]
     count = sum(1 for _ in big)
     total = sum(r["amount"] for r in big)
     return count, total

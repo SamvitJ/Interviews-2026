@@ -26,14 +26,16 @@ def process_batch(records, sink, retries=2):
     A TransientError means the downstream had a blip; retry so the batch
     still gets through. Every record must land in the sink exactly once.
     """
-    for attempt in range(retries + 1):
-        try:
-            for record in records:
+    for record in records:
+        attempt = 1
+        while attempt <= (retries + 1):
+            try:
                 sink.send(record)
-            return
-        except TransientError:
-            continue
-    raise TransientError("batch failed after %d attempts" % (retries + 1))
+                break
+            except TransientError:
+                attempt += 1
+        if attempt > retries + 1:
+            raise TransientError("batch failed after %d attempts" % (retries + 1))
 
 
 def _check(name, got, want):

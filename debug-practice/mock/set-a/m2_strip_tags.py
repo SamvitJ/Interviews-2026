@@ -8,7 +8,7 @@ def strip_tags(html):
 
     '<b>hi</b>' -> 'hi'
     """
-    return re.sub(r"<.*>", "", html)
+    return re.sub(r"<[^>]*>", "", html)
 
 
 def _check(name, got, want):

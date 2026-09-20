@@ -8,6 +8,8 @@ haven't seen, and they're worth far more as a cold run than as reading.
 - `set-b/` — second mock
 - `answers/INTERVIEWER.md` — protocol, hint ladders, answer key, scoring rubric.
   For whoever is running the mock. Not for you, until after.
+- `scorecards/` — results from completed runs. Each one spoils its own set,
+  so don't open a set's scorecard before running that set.
 
 ## Running it with Claude
 

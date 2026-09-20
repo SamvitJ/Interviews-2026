@@ -7,7 +7,7 @@ def strip_extension(filename):
     'report.txt' -> 'report'
     'report'     -> 'report'
     """
-    return filename.strip(".txt")
+    return filename.removesuffix(".txt")
 
 
 def _check(name, got, want):
